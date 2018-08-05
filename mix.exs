@@ -25,8 +25,10 @@ defmodule Elxjob.MixProject do
       # {:dep_from_hexpm, "~> 0.3.0"},
       # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"},
       {:cowboy, "~> 1.1.2"},
-      {:plug, "~> 1.3.4"},
-      {:timex, "~> 3.1"}
+      {:plug, "~> 1.6.1"},
+      {:timex, "~> 3.1"},
+      {:riakc, github: "basho/riak-erlang-client"},
+      {:poison, "~> 3.1"}
     ]
   end
 end

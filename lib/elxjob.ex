@@ -3,15 +3,6 @@ defmodule Elxjob do
   Documentation for Elxjob.
   """
 
-  @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> Elxjob.hello
-      :world
-
-  """
   use Application
   require Logger
   import Supervisor.Spec
@@ -19,8 +10,8 @@ defmodule Elxjob do
   def start(_type, _args) do
     port = Application.get_env(:elxjob, :cowboy_port, 8001)
     children = [
-      supervisor(Elxjob.Supervisor, [[]]),
-      Plug.Adapters.Cowboy.child_spec(:http, Elxjob.Plug.Router, [], port: port)
+      Plug.Adapters.Cowboy.child_spec(:http, Elxjob.Plug.Router, [], port: port),
+      worker(Elxjob.Executor, [], name: Executor)
     ]
     Logger.info "Started application"
 

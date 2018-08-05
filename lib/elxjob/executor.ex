@@ -2,12 +2,12 @@ defmodule Elxjob.Executor do
   use Task
 
   def start_link() do
-    IO.puts "sss"
-    excute()
+    Task.start_link(__MODULE__, excute, [])
   end
 
-  defp excute() do
+  def excute() do
     IO.puts Timex.local
+    Process.sleep(30_000)
     excute()
   end
 end

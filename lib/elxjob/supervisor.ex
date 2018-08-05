@@ -13,8 +13,7 @@ defmodule Elxjob.Supervisor do
     children = [
       worker(Elxjob.Executor, [], name: Executor)
     ]
-    opts = [strategy: :one_for_one, restart: :permanent]
-    Supervisor.start_link(children, opts)
+    Supervisor.start_link(children, strategy: :one_for_one)
   end
 end 
 

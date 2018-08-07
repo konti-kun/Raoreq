@@ -27,51 +27,57 @@
         </div>
       </nav>
     </header>
-
     <!-- Begin page content -->
     <main role="main" class="container" id="main">
+			<svg id="svg_main">
+			</svg>
     </main>
 
-    <footer class="footer">
-      <div class="container">
-        <span class="text-muted">Job scheduler</span>
-      </div>
-    </footer>
     <script src="static/jquery-3.3.1.min.js"></script>
     <script src="static/popper.min.js"></script>
     <script src="static/js/bootstrap.min.js"></script>
     <script src="static/d3.min.js"></script>
   <script>
-    var makeformitem = function(selection, id, label, type){
-      var current = selection.append("div").attr("class","form-group")
-      current.append("label").attr("for",id).text(label);
-      switch(type){
-        case "text":
-          current.append("input").attr("type",type)
-          .attr("id",id).attr("class","form-control");
-          break;
-      }
-      
-    }
-    d3.select("#newjob_btn").on("click",function(){
-      d3.select("#main").selectAll("div").remove();
-      var base = d3.select("#main").append("div").attr("class","row").append("div");
-      base.call(makeformitem,"jobid","job id","text");
-      var submit = base.append("button").attr("type","submit").attr("class","btn btn-primary")
-      .text("submit");
-      submit.on("click",function(){
-        params = {};
-        params["jobid"] = d3.select("#jobid").node().value;
-        d3.json("createjob", {
-          method:"POST",
-          body:'{"jobid":"1111"}',
-          headers: {"Content-Type":"application/json"}
-        })
-        .then(function(data) {
-          console.log(data);
-        });
-      });
-    });
+		var margin = {top: 30, right: 20, bottom: 30, left: 40},
+	    width = 700 - margin.left - margin.right,
+	    height = 600 - margin.top - margin.bottom;
+
+		var yScale = d3.scaleTime()
+	  .domain([new Date(2000,0,1),new Date(2000,0,2)])
+	  .range([0,height]);
+
+		var axis = d3.axisLeft(yScale)
+		.ticks(d3.timeHour.every(3))
+		.tickFormat(d3.timeFormat("%H"));
+
+		var svg = d3.select("#svg_main");
+		svg
+		.attr("width", width + margin.left + margin.right)
+		.attr("height", height + margin.top + margin.bottom)
+		.append("g")
+		.attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+		.call(axis);
+
+		var time_arr = [
+			{"key":"10:5","value":[{"id":"test1"},{"id":"test2"}]}
+		]
+
+		var makeY = function(t){
+			var format = d3.timeParse("%Y-%m-%d %H:%M");
+			return yScale(format("2000-1-1 " + t));
+		}
+		svg
+		.append("g").attr("id","line")
+		.attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+		.selectAll("line")
+		.data(time_arr)
+		.enter()
+		.append("line")
+		.attr("stroke","gray")
+		.attr("x1",0).attr("x2", width)
+		.attr("y1", function(d){return makeY(d["key"])})
+		.attr("y2", function(d){return makeY(d["key"])});
+
   </script>
 	</body>
 </html>

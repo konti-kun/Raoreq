@@ -62,21 +62,38 @@
 			{"key":"10:5","value":[{"id":"test1"},{"id":"test2"}]}
 		]
 
-		var makeY = function(t){
+		var makeY = function(d){
 			var format = d3.timeParse("%Y-%m-%d %H:%M");
-			return yScale(format("2000-1-1 " + t));
+			return yScale(format("2000-1-1 " + d["key"]));
 		}
-		svg
-		.append("g").attr("id","line")
+		var svgmain = svg
+		.append("g").attr("id","main")
 		.attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+
+		svgmain
+		.append("g").attr("id","lines")
 		.selectAll("line")
 		.data(time_arr)
 		.enter()
 		.append("line")
 		.attr("stroke","gray")
 		.attr("x1",0).attr("x2", width)
-		.attr("y1", function(d){return makeY(d["key"])})
-		.attr("y2", function(d){return makeY(d["key"])});
+		.attr("y1", makeY)
+		.attr("y2", makeY);
+
+		svgmain
+		.append("g").attr("id","jobs")
+		.selectAll("g")
+		.data(time_arr)
+		.enter()
+		.append("g")
+		.attr("transform", function(d){return "translate(0,"+ makeY(d)+ ")"})
+		.selectAll("circle")
+		.data(function(d){return d["value"]})
+		.enter()
+		.append("circle")
+		.attr("cx",function(d,i){return 20 + i*20}).attr("cy",0)
+		.attr("id",function(d){return d["id"]}).attr("r",5).attr("fill","gray");
 
   </script>
 	</body>

@@ -1,4 +1,4 @@
-defmodule Elxjob.MixProject do
+defmodule Raoreq.MixProject do
   use Mix.Project
 
   def project do

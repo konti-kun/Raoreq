@@ -1,4 +1,4 @@
-defmodule Elxjob.Supervisor do
+defmodule Raoreq.Supervisor do
   use Supervisor
   require Logger
 
@@ -11,7 +11,7 @@ defmodule Elxjob.Supervisor do
     import Supervisor.Spec
     Logger.info "init supervisor"
     children = [
-      worker(Elxjob.Executor, [], name: Executor)
+      worker(Raoreq.Executor, [], name: Executor)
     ]
     Supervisor.start_link(children, strategy: :one_for_one)
   end

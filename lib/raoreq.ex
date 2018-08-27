@@ -1,6 +1,6 @@
-defmodule Elxjob do
+defmodule Raoreq do
   @moduledoc """
-  Documentation for Elxjob.
+  Documentation for Raoreq.
   """
 
   use Application
@@ -10,8 +10,8 @@ defmodule Elxjob do
   def start(_type, _args) do
     port = Application.get_env(:elxjob, :cowboy_port, 8001)
     children = [
-      Plug.Adapters.Cowboy.child_spec(:http, Elxjob.Plug.Router, [], port: port),
-      worker(Elxjob.Executor, [], name: Executor)
+      Plug.Adapters.Cowboy.child_spec(:http, Raoreq.Plug.Router, [], port: port),
+      worker(Raoreq.Executor, [], name: Executor)
     ]
     Logger.info "Started application"
 

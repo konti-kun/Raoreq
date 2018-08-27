@@ -8,7 +8,7 @@ defmodule Raoreq do
   import Supervisor.Spec
   
   def start(_type, _args) do
-    port = Application.get_env(:elxjob, :cowboy_port, 8001)
+    port = Application.get_env(:raoreq, :cowboy_port, 8001)
     children = [
       Plug.Adapters.Cowboy.child_spec(:http, Raoreq.Plug.Router, [], port: port),
       worker(Raoreq.Executor, [], name: Executor)

@@ -2,7 +2,7 @@
 # and its dependencies with the aid of the Mix.Config module.
 use Mix.Config
 
-config :elxjob, cowboy_port: 8086
+config :raoreq, cowboy_port: 8086
 
 config :plug, :mimes, %{
   "application/json" => ["json"]
@@ -15,11 +15,11 @@ config :plug, :mimes, %{
 
 # You can configure your application as:
 #
-#     config :elxjob, key: :value
+#     config :raoreq, key: :value
 #
 # and access this configuration in your application as:
 #
-#     Application.get_env(:elxjob, :key)
+#     Application.get_env(:raoreq, :key)
 #
 # You can also configure a 3rd-party app:
 #
